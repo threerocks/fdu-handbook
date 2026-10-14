@@ -1,0 +1,96 @@
+{
+  "title": "从 FDE 到 FDU：重新定义 AI 交付",
+  "date": "2026-10-14",
+  "chapters": [
+    {
+      "slug": "00-guide",
+      "title": "FDE 已死！从 FDE 到 FDU：重新定义 AI 交付",
+      "source_lines": [
+        1,
+        28
+      ],
+      "characters": 2097
+    },
+    {
+      "slug": "01-bottlenecks",
+      "title": "第一章：诞生的背景与 AI 落地的四大核心瓶颈",
+      "source_lines": [
+        29,
+        90
+      ],
+      "characters": 4573
+    },
+    {
+      "slug": "02-fde-limits",
+      "title": "第二章：为什么 FDE 还不够？——单兵模式的五大结构性死穴",
+      "source_lines": [
+        91,
+        135
+      ],
+      "characters": 2181
+    },
+    {
+      "slug": "03-paradigm",
+      "title": "第三章：AI 交付正在发生什么？——重塑游戏规则的四大范式转移",
+      "source_lines": [
+        136,
+        177
+      ],
+      "characters": 3001
+    },
+    {
+      "slug": "04-fdu-anatomy",
+      "title": "第四章：全面解剖 FDU——它到底是什么？为什么必须是 FDU？",
+      "source_lines": [
+        178,
+        255
+      ],
+      "characters": 5296
+    },
+    {
+      "slug": "05-operation",
+      "title": "第五章：保姆级运行机制拆解——FDU 究竟是如何运转的？",
+      "source_lines": [
+        256,
+        512
+      ],
+      "characters": 15397
+    },
+    {
+      "slug": "06-cases",
+      "title": "第六章：FDU 能解决什么问题？——全球标杆实战案例与“零号客户”的 ROI 铁证",
+      "source_lines": [
+        513,
+        561
+      ],
+      "characters": 4330
+    },
+    {
+      "slug": "07-china",
+      "title": "第七章：深度探讨——FDU 模式在中国国内落地的前景、水土不服与破局指南",
+      "source_lines": [
+        562,
+        747
+      ],
+      "characters": 13858
+    },
+    {
+      "slug": "08-next-frontier",
+      "title": "第八章：终章——当容量瓶颈被 FDU 攻克，AI 交付的下一个主战场在哪里？",
+      "source_lines": [
+        748,
+        779
+      ],
+      "characters": 2129
+    },
+    {
+      "slug": "09-supplement",
+      "title": "补充材料：生产级系统的生成与治理",
+      "source_lines": [
+        784,
+        837
+      ],
+      "characters": 4423
+    }
+  ]
+}

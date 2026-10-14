@@ -1,0 +1,35 @@
+{
+  "diagram-design": {
+    "source": "https://github.com/cathrynlavery/diagram-design",
+    "commit": "11b08eade8049c441ed3df1895e3b527c26c0fbe"
+  },
+  "md2html": {
+    "source": "https://github.com/haidang1810/md2html",
+    "vendored_files": [
+      "LICENSE",
+      "README.md",
+      "SKILL.md",
+      "template.html",
+      "components.md"
+    ],
+    "commit": "82fa59cd673d985781ebb81814252c7b25d129cb",
+    "adaptations": [
+      "章节链接保留侧栏",
+      "移除外部字体与 Mermaid CDN",
+      "追加项目主题层与打印样式",
+      "长表格逐条记录渲染"
+    ]
+  },
+  "fonts": {
+    "source": "https://github.com/notofonts/noto-cjk",
+    "file": "Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf",
+    "license": "SIL Open Font License 1.1",
+    "local": "assets/fonts/LICENSE.txt",
+    "original_sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+    "modifications": [
+      "woff2 格式转换",
+      "打印字体移除未使用的部首与兼容字别名，修复 PDF 文本复制",
+      "SVG 使用按本版字符生成的内嵌子集"
+    ]
+  }
+}

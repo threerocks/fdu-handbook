@@ -1,0 +1,22 @@
+[
+  {
+    "chapter": "01-bottlenecks",
+    "title": "企业级 AI 规模化落地的四大系统性瓶颈",
+    "rows": 4
+  },
+  {
+    "chapter": "07-china",
+    "title": "FDU 模式在中国本土落地的“四大现实拦路虎”",
+    "rows": 4
+  },
+  {
+    "chapter": "07-china",
+    "title": "国内企业落地 FDU 模式的“五步实操破局路线图”",
+    "rows": 5
+  },
+  {
+    "chapter": "09-supplement",
+    "title": "RAD（激进应用开发）十层机器可读交付技术栈",
+    "rows": 10
+  }
+]

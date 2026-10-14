@@ -1,0 +1,4 @@
+markdown-it-py==3.0.0
+beautifulsoup4==4.15.0
+pypdf==6.14.2
+Pillow==11.3.0

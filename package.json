@@ -1,0 +1,14 @@
+{
+  "name": "fdu-handbook",
+  "version": "0.1.0",
+  "private": true,
+  "description": "从 FDE 到 FDU：重新定义 AI 交付",
+  "scripts": {
+    "build": "python3 scripts/build.py",
+    "pdf": "node scripts/render_pdf.cjs",
+    "check": "python3 scripts/check_content.py"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
