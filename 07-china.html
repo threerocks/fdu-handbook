@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>第七章：深度探讨——FDU 模式在中国国内落地的前景、水土不服与破局指南</title>
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: #F0D5C4;
+      --accent-strong: #A85533;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
+      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
+      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-border: #5A3D2E;
+      --accent-strong: #F5B493;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: #fff;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  :root{--font-sans:system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;--font-mono:ui-monospace,'SF Mono',Menlo,monospace}.brand-dot{animation:none}.content{font-size:17px;line-height:1.9}.content h1,.content h2{font-family:Georgia,'Songti SC',serif;line-height:1.45}.content h3{font-size:21px;line-height:1.6}.doc-title{font-size:clamp(28px,3vw,40px)}.doc-subtitle{line-height:1.8}.content h4{text-transform:none;letter-spacing:0;font-size:17px}.chapter-nav,.download-actions{display:flex;gap:16px;flex-wrap:wrap;margin:28px 0}.download-actions a{padding:9px 16px;background:var(--accent);color:#fff;border:0;border-radius:8px;font-weight:600}.chapter-nav{justify-content:space-between;padding-top:24px;border-top:1px solid var(--border)}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.chapter-card{border:1px solid var(--border);border-radius:12px;background:var(--surface);overflow:hidden}.chapter-card a{display:block;border:0}.chapter-card img{border:0;margin:0;border-radius:0;aspect-ratio:2.5;object-fit:contain;background:#fff}.chapter-card h3{margin:16px 20px;font-family:var(--font-sans);font-size:19px}.chapter-card p{margin:0 20px 20px;font-size:14px;color:var(--text-muted)}.book-intro{display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:center}.book-intro img{margin:0}.content .chapter-cover{margin:28px 0 36px;width:100%}.content figure.mechanism{background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px}.content figure.mechanism img{width:100%;border:0;border-radius:0}.diagram-link{display:block;font-size:13px;text-align:right;margin-top:8px}.source-diagram{font-size:13px;color:var(--text-subtle);margin:22px 0;border-top:1px solid var(--border);padding-top:12px}.source-diagram summary{cursor:pointer}.source-diagram pre{font-size:11px;white-space:pre;max-width:100%;overflow:auto}.record{margin:28px 0;border-top:2px solid var(--accent-border);padding-top:8px}.record h3{margin:12px 0}.record dt{font-size:14px;font-weight:600;color:var(--accent-strong);margin:16px 0 6px}.record dd{margin:0 0 16px;font-size:16px;line-height:1.85}.table-wrap table{min-width:680px}.content th{white-space:normal}.table-wrap td{line-height:1.8;overflow-wrap:anywhere}.table-wrap{border-radius:6px}.content li{margin:8px 0}.cover-page,.print-toc{display:none}.book-chapter>h1{margin-top:64px}.book-source-title{font-size:15px;color:var(--text-subtle)}.book-chapter p,.book-chapter li{orphans:3;widows:3}
+@media(max-width:900px){.layout{padding:24px 20px 64px;gap:0}.content{font-size:16px}.chapter-grid{grid-template-columns:1fr}.book-intro{grid-template-columns:1fr}.book-intro img{max-width:180px;margin:auto}.content h3{font-size:19px}.content h2{font-size:25px}.record dd{font-size:16px}.chapter-nav a{max-width:46%}.topbar-inner{padding:8px 16px}.brand{font-size:13px}}
+@page{size:A4;margin:18mm 17mm 19mm}
+@media print{
+html{color-scheme:light}.layout{display:block!important;margin:0!important;padding:0!important;max-width:none!important}.content{font-size:10.5pt;line-height:1.8;color:#202027}.content p,.content ul,.content ol,.content blockquote{max-width:none}.content p{margin-bottom:3.6mm}.content li{margin:2mm 0}.content h1{font-size:24pt}.content h2{font-size:18pt;margin:9mm 0 4mm;padding:0}.content h3{font-size:13pt;margin:6mm 0 3mm}.content h4{font-size:11pt}.content h1,.content h2,.content h3,.content h4{break-after:avoid}.doc-header,.doc-footer,.topbar,.skip-link,.chapter-nav,.download-actions,.diagram-link,.source-diagram,.print-hide{display:none!important}.cover-page{display:flex;height:258mm;align-items:center;justify-content:center;break-after:page}.cover-page img{width:auto;height:252mm;max-width:100%;object-fit:contain;border:0!important;margin:0}.print-toc{display:block;break-after:page}.print-toc h1{margin-top:12mm}.print-toc a{color:#102451;border:0}.print-toc li{margin:5mm 0}.book-chapter{break-before:page}.book-chapter>h1{font-size:24pt;margin:0 0 6mm;line-height:1.45}.content img.chapter-cover{width:100%;margin:0 0 7mm;border:0;break-after:avoid}.content figure{break-inside:avoid;margin:6mm 0}.content figure.mechanism{padding:0;border:0}.content figure.mechanism img{max-height:170mm;object-fit:contain}.content figcaption{font-size:8pt}.content .record{margin:5mm 0;padding-top:2mm;break-inside:auto}.record h3{break-after:avoid}.record dt{font-size:9pt;margin:3mm 0 1mm;break-after:avoid}.record dd{font-size:10pt;line-height:1.8;orphans:3;widows:3}.table-wrap{overflow:visible;border:0}.table-wrap table{min-width:0!important;table-layout:fixed;font-size:8.5pt;display:table}.content th,.content td{padding:2.5mm;white-space:normal;word-break:normal;overflow-wrap:anywhere}.content th{font-size:8pt}.content tr{break-inside:avoid}.content thead{display:table-header-group}.content a{color:#102451}.content pre{white-space:pre-wrap;overflow:visible;word-break:break-all;font-size:8pt}.content blockquote{font-style:normal}.content>header{display:none}body{background:#fff!important}.anchor,.copy-btn,.scroll-progress{display:none!important}
+}
+
+@font-face{font-family:"FDU Sans";src:url("assets/fonts/noto-sans-sc.woff2") format("woff2");font-weight:100 900;font-display:block}
+@media print{.content,.content h1,.content h2,.content h3,.content h4,.record dt,.record dd{font-family:"FDU Sans",sans-serif!important;font-variant-ligatures:none!important}}
+@media print{.record-kind{break-after:avoid;margin-bottom:1mm!important}.record-kind+h3{margin-top:1mm!important}}
+
+</style>
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="章节目录" title="章节目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>FDU 交付手册</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="章节目录">
+      <div class="toc-head">
+        <p class="toc-title">章节目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a class="lvl-2" href="index.html">手册首页 / PDF 下载</a><a class="lvl-2" href="00-guide.html">FDE 已死！从 FDE 到 FDU：重新定义 AI 交付</a><a class="lvl-2" href="01-bottlenecks.html">第一章：诞生的背景与 AI 落地的四大核心瓶颈</a><a class="lvl-2" href="02-fde-limits.html">第二章：为什么 FDE 还不够？——单兵模式的五大结构性死穴</a><a class="lvl-2" href="03-paradigm.html">第三章：AI 交付正在发生什么？——重塑游戏规则的四大范式转移</a><a class="lvl-2" href="04-fdu-anatomy.html">第四章：全面解剖 FDU——它到底是什么？为什么必须是 FDU？</a><a class="lvl-2" href="05-operation.html">第五章：保姆级运行机制拆解——FDU 究竟是如何运转的？</a><a class="lvl-2" href="06-cases.html">第六章：FDU 能解决什么问题？——全球标杆实战案例与“零号客户”的 ROI 铁证</a><a class="lvl-2" href="07-china.html">第七章：深度探讨——FDU 模式在中国国内落地的前景、水土不服与破局指南</a><a class="lvl-3" href="#07-china-7-1">7.1 为什么说中国企业级 AI 市场正处于呼唤 FDU 的“前夜”？</a><a class="lvl-3" href="#07-china-7-2">7.2 警钟长鸣：FDU 在国内落地必闯的“四大水土不服关”</a><a class="lvl-3" href="#07-china-3">第一关：采购招投标与审计体制的刚性约束</a><a class="lvl-3" href="#07-china-4">【本土化破局方案：用“组合式商业包装器（Commercial Wrappers）”过审】</a><a class="lvl-3" href="#07-china-5">第二关：驻场文化的异化风险（如何防止精英 FDU 沦为“高级驻场苦力”？）</a><a class="lvl-3" href="#07-china-6">【本土化破局方案：用“三大铁律”重构甲乙双方现场协作边界】</a><a class="lvl-3" href="#07-china-7">第三关：非标二开与“数据/流程荒漠”（没有标准 SOP、老系统改得面目全非怎么办？）</a><a class="lvl-3" href="#07-china-8">【本土化破局方案：“流程吞噬者 + 非结构化清洗 + 非破坏性编排”三板斧】</a><a class="lvl-3" href="#07-china-9">第四关：全栈复合型人才断层与“初级程序员培养悖论”</a><a class="lvl-3" href="#07-china-10">【本土化破局方案：重构“判断力层（Judgment Layer）”的浸入式学徒制】</a><a class="lvl-3" href="#07-china-7-3">7.3 保姆级实操手册：国内企业与技术团队落地 FDU 的“五步破局路线图”</a><a class="lvl-3" href="#07-china-12">第一步：把自己当成“零号客户（Client Zero）”，先在内部跑通生产力飞轮</a><a class="lvl-3" href="#07-china-13">第二步：搭建“超级挽具（Uber Harness）”平台底座，绝不裸发 AI 账号</a><a class="lvl-3" href="#07-china-14">第三步：按“两端是人、中间是 Agent”混编 3~8 人精锐 Pod，彻底改革绩效考核</a><a class="lvl-3" href="#07-china-15">第四步：遵循“五级自主演进阶梯”与“双价值流交付”，用迭代调优取代人海返工</a><a class="lvl-3" href="#07-china-16">第五步：构建“行业灯塔联盟”分摊验证成本，并借高人效杠杆下沉中端市场（Midmarket）</a><a class="lvl-3" href="#07-china-7-4">7.4 角色对号入座：给国内甲方 CIO、乙方服务商与一线工程师的行动清单</a><a class="lvl-2" href="08-next-frontier.html">第八章：终章——当容量瓶颈被 FDU 攻克，AI 交付的下一个主战场在哪里？</a><a class="lvl-2" href="09-supplement.html">补充材料：生产级系统的生成与治理</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+        <span class="doc-eyebrow">HANDBOOK</span>
+        <h1 class="doc-title">第七章：深度探讨——FDU 模式在中国国内落地的前景、水土不服与破局指南</h1>
+        <p class="doc-subtitle">从 FDE 到 FDU：重新定义 AI 交付</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            chapters/07-china.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            2026-10-14
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            按章节阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<figure><img alt="第 7 章封面" class="chapter-cover" loading="lazy" src="assets/covers/07.png"/></figure>
+<p>看完了 IBM 在全球掀起的这场从 FDE 到 FDU 的交付革命，所有中国科技从业者、ToB 软件厂商、咨询机构以及甲方 CIO/CTO 最关心的问题必然是：这套“6 人 + 智能体顶 30 人”的 FDU 模式，在中国本土企业级市场到底能不能跑通？前景如何？如果我们要在国内落地 FDU，会撞上哪些特有的“暗礁”，又该如何实操破局？</p>
+<p>事实上，IBM 对中国及亚太市场极为重视——2026 年 5 月 14 日全球首发 FDU 时便明确将亚太列为重点规模化部署区域；6 月 3 日，IBM 咨询总裁 Mohamad Ali 署名在北京发布官方中文版宣言《用一种全新的方式，让 AI 真正落地现实世界》；8 月至 9 月，IBM 又先后在中国香港及中国大陆市场同步推进与 OpenAI 的企业级合作及 SAP 公用事业 AI 灯塔委员会落地。与此同时，国内技术社区（如 FDE-Wiki 等）也已开始围绕 FDE/FDU 的团队组建与组织设计展开深度探讨。</p>
+<p>结合中国本土 ToB 市场的真实生态，我们可以从历史机遇、四大本土化阻力、五步实操破局手册三个维度，给出最接地气的深度研判。</p>
+<h2 id="07-china-7-1">7.1 为什么说中国企业级 AI 市场正处于呼唤 FDU 的“前夜”？</h2>
+<p>当前，中国企业级 AI 市场正在经历与欧美市场高度相似、甚至更为剧烈的阵痛期，这为 FDU 模式的本土化生根提供了三大核心驱动力：</p>
+<ol>
+<li>逃离“PoC 坟场”的迫切刚需：过去两年，国内从央国企、商业银行、大型车企到头部制造企业，几乎家家都立项了数十个大模型试点（PoC）——搭了知识库问答、做了会议纪要助手、搞了公文写作插件。但到了 2026 年，甲方的财务部门和一把手开始严查 ROI：“花了上千万买算力、做微调，到底帮业务部门省了多少成本？缩短了多少交付周期？”单纯卖大模型 API、卖算力一体机或做浅层聊天套壳的厂商已陷入惨烈价格战，市场极度渴求能深入核心业务系统（ERP、MES、HIS、核心银行系统）拿出确定性业务结果的 FDU 级团队。</li>
+<li>传统“人头外包（ITO）”商业模式的全面崩塌：中国软件与技术服务行业长期存在庞大的“人力外包”生态——靠派驻成百上千名初、中级程序员按“人月”计费。随着编码智能体（Coding Agents）的普及，甲方研发领导自己都清楚：原本需要 20 个初级外包写三个月的代码，现在 2 个资深工程师带着智能体两周就能干完。继续按传统人海战术卖“人头”，在甲方的降本增效大刀下已毫无生存空间，向“高人才密度 + 数字员工”的 FDU 模式转型是本土 IT 服务商唯一的活路。</li>
+<li>“信创国产化替代 + 遗留系统 AI 现代化”的双重历史交汇：中国大型政企、金融与能源客户不仅面临老旧系统（如早期定制的 ERP、传统数据库、复杂中间件）的技术债，还叠加了“信创（信息技术应用创新）全栈国产化迁移”的硬性任务。这类工程涉及海量的存量代码转换、异构数据迁移与自动化测试——正如前文印度大型银行将 300 人 15 个月工程压缩至 9 个月以内的案例一样，这恰恰是 FDU + 智能体挽具（Harness）发挥“技术套利”威力的绝佳主战场。</li>
+</ol>
+<h2 id="07-china-7-2">7.2 警钟长鸣：FDU 在国内落地必闯的“四大水土不服关”</h2>
+<p>尽管前景广阔，但如果哪家国内厂商或企业生搬硬套海外的 FDU 模板，大概率会在三个月内碰得头破血流。因为中国本土 ToB 环境存在着四个极具杀伤力的特殊国情：</p>
+<p><strong>FDU 模式在中国本土落地的“四大现实拦路虎”</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>拦路虎 1：招投标与审计刚性约束</td>
+<td>国企/大厂采购体系认“人天/工作量审计”，难直接签纯结果对赌合同</td>
+</tr>
+<tr>
+<td>拦路虎 2：驻场文化的异化风险</td>
+<td>精英 FDU 极易被甲方业务部门当成“随叫随改需求的免费驻场苦力”</td>
+</tr>
+<tr>
+<td>拦路虎 3：非标二开与数据荒漠</td>
+<td>大量企业无标准 SOP 文档，业务靠口耳相传，定制化“二开”极重</td>
+</tr>
+<tr>
+<td>拦路虎 4：全栈复合型人才断层</td>
+<td>既懂垂直行业深水区政企逻辑、又懂智能体架构的 FDA/FDE 极度稀缺</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="07-china-3">第一关：采购招投标与审计体制的刚性约束</h3>
+<p>在欧美市场，正如 IBM 咨询高级副总裁 Mohamad Ali 在访谈中坦言，尽管 IBM 极力推行固定总价（Fixed-price）与按结果付费（Outcome-based Pricing），但仍有不少企业客户“还不知道如何消费按结果付费的合同，因为他们的采购部门根本不是按那套逻辑建立的”。而在中国，央国企、金融机构和政府部门受限于严格的采购法规、预算管理制度与事后审计要求，招标文件往往必须明确列出“投入多少名高级/中级/初级工程师、驻场多少人月、单人天定额标准是多少”。</p>
+<p>这种传统的“工时与材料（Time and Materials, T&amp;M）”、“人天费率卡（Rate Cards）”或“全职等效人力（FTE）”商业原语，本质上是为过去三十年“人力即规模因子”的时代校准的。正如 IBM 混合云与数据全球管理合伙人 Javier Olaizola 指出的那样：“如果你按小时定价，所有人的动机基本上都是最大化工作小时数，而不是最大化业务成果。” IBM 全球管理合伙人 Debbie C Vavangas 也在研究中一针见血地指出：在 FTE 和工时利用率体系下，效率不仅得不到奖励，反而受到变相惩罚——服务商为了保住营收会最大化人力投入，而甲方的采购机制恰好强化了这种低效均衡。</p>
+<p>如果国内科技服务商直接拿着“6 人 FDU 替代 30 人团队”的方案去投标，在传统“按人头核价”的审计体系下，预算可能会被直接砍掉五分之四，导致服务商“用 AI 帮甲方提效，自己却亏本出局”的荒诞结果。</p>
+<h3 id="07-china-4">【本土化破局方案：用“组合式商业包装器（Commercial Wrappers）”过审】</h3>
+<p>参照 Varun Bijlani 与 Mohamad Ali 披露的 IBM 实战商业设计，国内团队切忌一步到位强推“纯结果对赌”，而应采用“四层组合式商业包装器”来适配国内招投标与审计体系：</p>
+<ol>
+<li>第一层：从“人月外包”切换为“固定总价合同（Fixed-Price Projects）”。Mohamad Ali 指出，由于 IBM 对“人类+数字员工”的交付能力有极高把握，固定总价已成为首选模式。在国内招投标中，“固定总价+里程碑验收”完全符合政府与国企采购规范，服务商无需虚报人头，而是以端到端系统交付物立项。</li>
+<li>第二层：按“用户故事/功能点（Per Story）”进行细粒度计费。将庞大的软件工程拆解为可量化、可审计的业务功能点或用户故事（User Story）进行颗粒度定价，既满足国内造价审计对“工作量核定”的合规要求，又将计费锚点从“消耗了多少工时”转移到“交付了多少特性”。</li>
+<li>第三层：引入“吞吐量服务级别目标（Throughput SLO）”与持续运营协议。在应用维护（AMS）或业务流程运营中，将合同与系统吞吐量、事件解决速度、复发故障率下降等可量化的 SLO 挂钩。</li>
+<li>第四层：叠加“可复用资产与平台订阅（IP Subscription / Asset Licensing）”。通过类似 IBM Enterprise Advantage 的资产型咨询服务模式，将随项目交付沉淀下来的行业智能体、上下文库、测试套件与平台底座打包为软件资产许可给客户复用。正如 Varun Bijlani 所强调的：“没有任何一种包装器能单独奏效，组合（Composition）才是破局关键——唯有如此，当底层生产力提升、单点价格下降时，价值捕获才不会流失。”</li>
+</ol>
+<h3 id="07-china-5">第二关：驻场文化的异化风险（如何防止精英 FDU 沦为“高级驻场苦力”？）</h3>
+<p>在中国 ToB 软件交付现场，有一种令所有技术团队闻风丧胆的现象——“驻场异化”。无论乙方派过去的是多么顶级的架构师或咨询顾问，一旦进入甲方现场，极易被甲方业务部门当成“随叫随到的免费改需求工具人”：今天临时改个报表字段，明天帮业务员导个数据，后天开一整天跨部门扯皮会。</p>
+<p>如果 FDU 小队陷入这种泥潭，所谓的“6 人 + 智能体顶 30 人”会在瞬间崩溃。因为 FDU 的核心算力引擎是“两端的人类高阶判断 + 中间的数字员工自动执行”；一旦两端的人类专家被高频、琐碎、毫无上下文规范的临时口头需求淹没，整个智能体流水线就会彻底瘫痪。</p>
+<h3 id="07-china-6">【本土化破局方案：用“三大铁律”重构甲乙双方现场协作边界】</h3>
+<p>结合 IBM FDU 的组织架构与激进应用开发（Radical Application Development, RAD）方法论，国内团队必须在入场第一天就立下三条铁律：</p>
+<ul>
+<li>铁律一：设立高职级的“客户成果负责人（Client Outcome Lead）”，直接对齐甲方高管 QBR。在 FDU 中，不能只有埋头写代码的工程师。必须配备一名由资深行业领袖或前甲方高管担任的 Client Outcome Lead，端到端对业务结果（如结账周期压缩、获客成本降低、吞吐量提升、合规风险闭环）负责，并在甲方的季度业务评审（QBR）中直接向决策层交账。同时，业务领域专家（Business Domain Specialist）的职责是与甲方流程负责人协作并“挑战（Challenge）”其原有流程，重新思考业务目标，而非被动接单。</li>
+<li>铁律二：用“规范文件夹（Spec Folder）”取代口头传话与工单扯皮。引入 Sutapa Sen 阐述的 RAD 规范驱动开发模式——拒绝任何口头临时改需求，将“规范文件夹（包含 research.md、quickstart.md、spec.md、plan.md、tasks.md 与实时追踪进度的 workflow-state.md）”作为人类与智能体之间唯一的“单一事实来源（Source of Truth）”。所有的需求歧义必须在编写 spec.md 阶段解决，下午的时间用于验证智能体产出的结果，而不是在无休止的同步会议中追问需求。</li>
+<li>铁律三：赋予 FDU“叫停沉没成本项目”的预警权。正如 IBM 咨询 AWS 实践全球 CTO Nathan Limbert 所言，企业面临的最大风险之一是“AI 沉没成本谬误（AI Sunk Cost Fallacy）”——明知项目不产生价值，却因已投入巨资而硬着头皮继续。FDU 嵌入客户现场获取的是实时运营反馈而非季度汇报，一旦发现某个方向的优化没有业务价值，及时叫停工作（Stopping work）往往比盲目做完能创造更大的价值。</li>
+</ul>
+<h3 id="07-china-7">第三关：非标二开与“数据/流程荒漠”（没有标准 SOP、老系统改得面目全非怎么办？）</h3>
+<p>许多海外标杆企业（例如雀巢 Nestlé）之所以能在短时间内跑通 GPU 加速的 watsonx.data 订单到现金（Order-to-Cash）概念验证，将跨 186 个国家、44 张数据表的查询刷新时间从 15 分钟压缩到 3 分钟、成本降低 83%，一个关键前提是雀巢早已具备强大的“数字主干（Digital Backbone）”——拥有全球统一的数据模型、整合的数据底座与单一事实来源。</p>
+<p>然而反观国内大量传统制造、能源、医药及政企客户，内部往往面临两大顽疾：</p>
+<ol>
+<li>流程黑盒化与文档缺失：根本没有成体系的最新版标准作业程序（SOP），大量核心业务逻辑保存在老员工的脑子里、微信聊天记录里、散乱的 Word/PDF 甚至口耳相传的“潜规则”中；正如 IBM 咨询管理合伙人 Michael Healy 所指出的，许多企业受困于技术债与人工交接，连自身现有工作流到底是怎么运转的都搞不清楚。</li>
+<li>重度“非标二开”与架构腐化：核心 ERP（如早期 SAP 或国产 ERP）经过十几年外包团队层层打补丁，定制化代码（Custom Code）堆积如山，远离了“洁净核心（Clean Core）”与标准化 API 要求。如果直接把 AI 智能体塞进这样低效、混乱的流程中，正如 IBM 杰出工程师 Dharma Atluri 警告的那样，只会“把低效自动化（Automate the inefficiency）”，而不是消除低效。</li>
+</ol>
+<h3 id="07-china-8">【本土化破局方案：“流程吞噬者 + 非结构化清洗 + 非破坏性编排”三板斧】</h3>
+<p>针对国内企业的“流程荒漠”与“重度二开”，FDU 提供了三套经过验证的工程化解法：</p>
+<ul>
+<li>第一板斧：用“渠道伙伴 + Procedure Eater（流程吞噬者）”周末全自动测绘流程。Mohamad Ali 透露，当客户缺乏现成流程文档时，IBM 一方面会利用渠道合作伙伴入场协助梳理，另一方面直接动用名为 Procedure Eater 的工作流分析工具与 Process Studio。在近期一个客户项目中，Process Studio 底层资产一口气分析了 1,400 份作业程序文档，挖掘出 1,000 多个改进机会，并将工作流拆解为可独立验证的“原子级步骤（Atomic Processes）”，精准划分哪些步骤该用确定性代码（Deterministic Code）、哪些该委派给 AI 智能体、哪些需要人类在环（Human-in-the-loop），预计在 18 个月内帮客户削减超过 25% 的运营成本。</li>
+<li>第二板斧：用 Docling + Context Studio 攻克多模态非结构化“暗数据”。针对散落在企业各处的 PDF、扫描件、老旧知识库与专家经验，利用 IBM Docling 等工具将其标准化转换为具有源级可追溯性（Source-level traceability）的 AI 就绪格式，再通过 Context Studio 将企业特有的行业黑话、业务规则与系统关系编码为机器可读的持久化知识图谱与记忆底座。</li>
+<li>第三板斧：借鉴 Providence 医疗案例，采用“不替换任何一套核心系统”的顶层编排策略。面对拥有 11.9 万名医护人员、受 100 多份复杂劳工协议约束的美国大型医疗系统 Providence，IBM 咨询并没有推翻其原有的 Oracle HCM 和招聘系统，也没有强推漫长的底层重构，而是基于 IBM watsonx Orchestrate 打造了数字员工 RITA，在现有系统之上建立统一的智能体控制平面（Control Plane）来跨系统编排审批与数据流。仅用约 8 个月时间，就在“不替换任何一个核心系统（Without Replacing a Single System）”的前提下，将招聘经理的行政管理时间削减了 90%、内部调岗速度加快 12 天、调岗成本降低 60%、流程准确率提升高达 70%。这种“顶层智能编排 + 渐进式 Clean Core 治理”的打法，正是国内重度二开企业最现实的破局路径。</li>
+</ul>
+<h3 id="07-china-9">第四关：全栈复合型人才断层与“初级程序员培养悖论”</h3>
+<p>FDU 模式之所以能实现“3-8 人干 30 人的活”，核心在于全员极高的人才密度。Gartner 在 2026 年 6 月发布的报告中预测：到 2029 年，80% 的企业将主动把“人才密度（Talent Density）”置于“人才规模（Talent Mass）”之上，而这一比例在 2025 年仅为 5%。</p>
+<p>但这给国内技术团队带来了双重挑战：</p>
+<ol>
+<li>“AI 通才（AI Versatilists）”极度稀缺：FDU 需要的不是只会写 CRUD 代码的单一工种，而是既懂垂直行业业务痛点、又精通提示词工程、多智能体编排（Multi-agent Orchestration）、上下文工程（Context Engineering）与企业级系统集成的复合型老兵。</li>
+<li>传统“师徒金字塔”培养链条断裂：过去咨询公司和软件大厂靠招收大量应届毕业生干写代码、写测试用例、查资料、改文档等“脏活累活”，在干活过程中慢慢熬成资深专家。现在这些基础工作全被 AI 智能体接管了，如果不招初级员工，五年后哪来的资深专家？如果招了初级员工，他们进组干什么？</li>
+</ol>
+<h3 id="07-china-10">【本土化破局方案：重构“判断力层（Judgment Layer）”的浸入式学徒制】</h3>
+<p>Javier Olaizola 对此给出了极具前瞻性的解答：当智能体接管常规生产工作后，人类的核心价值已经全面转移到了“判断力层（The Judgment Layer）”——就像记者在 AI 时代的核心价值不再是码字生产内容，而是“确保提供正确的视角、核实准确性与合规性”一样，工程师和顾问必须判断智能体生成的代码是否符合银行安全规范、是否调用了违规数据、是否契合整体架构。
+为此，国内企业和科技厂商必须借鉴 IBM 的“双轨制人才供应链”：</p>
+<ul>
+<li>针对初级人才（Applied AI Associate Program 浸入式学徒制）：不再让应届生在入职前几年做机械的填表和基础编码，而是从第一天起就把他们直接编入前线 FDU 小组（例如 Mohamad Ali 提到的“1 名资深架构师 + 2 名初级人员”的 3 人微型 FDU 配置）。让新人在资深专家身边，直接操作 Process Studio、运行智能体代码构建器、参与问题定义与输出质量评估——将“培养判断力”作为新人训练的直接目的，而不是顺带的副产品。</li>
+<li>针对高端成果负责人（独立继任通道）：从具有甲方高管背景的行业老兵或资深合伙人中专项选拔 Client Outcome Lead，赋予其极高权重的业务结果导向薪酬，让真正懂行的人为最终商业指标兜底。</li>
+</ul>
+<h2 id="07-china-7-3">7.3 保姆级实操手册：国内企业与技术团队落地 FDU 的“五步破局路线图”</h2>
+<figure class="mechanism"><img alt="国内落地五步路径" loading="lazy" src="assets/diagrams/07-roadmap.svg"/><figcaption>国内落地五步路径</figcaption><a class="diagram-link" href="assets/diagrams/07-roadmap.html">打开完整机制图</a></figure>
+<p><em>国内落地五步路径。依据本章原文绘制。</em></p>
+<p>如果你是一家国内 ToB 软件厂商、云与 AI 服务商、咨询机构的负责人，或者是一家正在推进 AI 转型的甲方 CIO/CTO，明天开始想在组织内部组建并跑通 FDU，应该怎么做？基于 IBM 内部数十亿美元验证的实战经验，我们为你提炼出一套可直接抄作业的“五步破局路线图”：</p>
+<p><strong>国内企业落地 FDU 模式的“五步实操破局路线图”</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>【Step 1】内部先行 (Client Zero)</td>
+<td>先把自己当成零号客户，用两周冲刺跑通内部提效飞轮</td>
+</tr>
+<tr>
+<td>【Step 2】底座筑基 (Uber Harness)</td>
+<td>拒绝裸发账号，搭建“三大工作室+四支柱挽具”平台底座</td>
+</tr>
+<tr>
+<td>【Step 3】小队重组 (Pod &amp; Comp)</td>
+<td>按“两端是人、中间是Agent”混编3-8人小队并改革绩效</td>
+</tr>
+<tr>
+<td>【Step 4】渐进演进 (5-Level &amp; 2V)</td>
+<td>沿五级自主模型切入，每次交付沉淀“双价值流”资产</td>
+</tr>
+<tr>
+<td>【Step 5】生态裂变 (Lighthouse)</td>
+<td>组建行业灯塔委员会“共建共享”，借高人效下沉中端市场</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="07-china-12">第一步：把自己当成“零号客户（Client Zero）”，先在内部跑通生产力飞轮</h3>
+<p>不要在自己还在用传统瀑布流和人海战术写代码的时候，去跟客户兜售 AI 转型。IBM 之所以能底气十足地向全球推广 FDU，是因为早在 2023 年初，CEO Arvind Krishna 就发起了“IBM 作为零号客户（Client Zero）”的全公司自我革命：</p>
+<ol>
+<li>确立三大铁律：第一，消除运营复杂性（遵循彼得·德鲁克名言：“没有什么比高效地做一件本不该做的事更无效率的了”，先砍掉冗余流程）；第二，基于混合云与统一可信数据底座简化端到端工作流；第三，全面自动化手动任务并将 AI 嵌入每个角落。</li>
+<li>全员武装自研工程系统：在 IBM 内部，超过 20,000 名乃至全部研发人员全面使用新一代 AI 软件开发系统 IBM Bob（Project Bob），通过智能编排 Anthropic Claude、Mistral、IBM Granite 小模型及定制模型，在全软件生命周期实现平均 45% 的生产力跃升。同时，17.8 万名员工参与内部 watsonx 挑战赛，将优秀的岗位智能体沉淀到全公司共享技能库中。</li>
+<li>形成财务自造血飞轮：这套打法让 IBM 在 AskHR 上实现了 94% 常见员工问询无人工秒级解答、晋升等管理操作提速 75%，客服数字助手解决 70% 问询，并在 2025 年底提前实现了 45 亿美元的年化生产力节省（预计 2026 年底达到 55 亿美元）。更重要的是，IBM 将内部省出来的利润重新投资到平台资产研发与员工技能重塑上，形成了“内部验证 → 提炼资产 → 赋能 FDU 外部交付 → 反哺平台”的复利飞轮。</li>
+</ol>
+<h3 id="07-china-13">第二步：搭建“超级挽具（Uber Harness）”平台底座，绝不裸发 AI 账号</h3>
+<p>Mohamad Ali 在复盘行业教训时一针见血地指出：三年前几乎所有竞争对手都在干同一件事——花大价钱买上十万个 Microsoft Copilot 或 OpenAI 账号发给员工，说“拿去提高生产力吧”，结果根本不起作用（It just didn't work）。
+国内企业落地 FDU，必须在底层大模型之上构建自己的“超级挽具（Uber Harness）”与工程平面（Engineering Plane）：</p>
+<ul>
+<li>对数字员工进行严格的产品化筛选与打包（Packs）：IBM 最初发动员工构建了多达 50,000 个数字员工（凡是调用 LLM 的非确定性模块均视为数字员工），但发现数量太多反而不好用；随后专门从软件部门引入产品管理团队进行分流与 QA 质检，精选出 6,000 个生产级数字员工，并按业务场景封装成 155 个标准资产包（Packs）。例如做一个银行前端项目，直接调取包含 20-30 个数字员工的资产包，配合 10 名人类专家在虚拟聊天室里协同生成用户故事、编写与测试代码。</li>
+<li>实施模型路由（Model Router）严控 Token 成本：FDU 规模化运行会产生海量调用（IBM Consulting Advantage 每月消耗约 5,000 亿 Tokens，同时实时运行着 600 个大型人机协同项目）。通过模型路由器根据任务复杂度动态匹配最经济的模型（如结合开源小模型 Granite 与前沿大模型 GPT-5.6 / Claude），IBM 将平均推理成本精准控制在 每百万 Token 2.58 美元。</li>
+<li>采用“技能集中托管、用完即焚”架构保护核心 IP：国内服务商最怕自己辛苦沉淀的提示词、工作流和行业 Know-how 在驻场时被轻易拷走。IBM 的做法是：绝不在第三方 AI 工具本地原生构建和留存技能（Skills），而是将所有核心技能集中存储在自家的平台底座（ICA）中；当 FDU 在客户现场调用某款工具时，技能包临时下载注入，执行完毕后立即从本地消失。这种中央 IP 保护机制，才是咨询与技术服务商别人抄不走的真正护城河。</li>
+</ul>
+<h3 id="07-china-14">第三步：按“两端是人、中间是 Agent”混编 3~8 人精锐 Pod，彻底改革绩效考核</h3>
+<p>抛弃过去动辄几十人的部门墙编组，以 3 人（小型单元）至 6~8 人（标准/大型单元） 的规模组建常设作战单元（Standing Operational Pod）：</p>
+<ul>
+<li>保持 Pod 番号与记忆的持久性：项目结束时，FDU 小组不就地解散，而是保持核心团队编制跨项目流转，使领域知识与工程经验在同一个团队手中持续产生复利。</li>
+<li>彻底废除“工时利用率”紧箍咒：立即修改内部 PMO 与 HR 的考核指标——不再考核顾问和工程师“填满了多少工时表”，而是考核项目利润率（Profitability）、客户业务成果达成度（QBR 满意度）以及向公司中央资产库贡献了多少可复用的模式、评测套件与智能体配置（IP Generation）。</li>
+</ul>
+<h3 id="07-china-15">第四步：遵循“五级自主演进阶梯”与“双价值流交付”，用迭代调优取代人海返工</h3>
+<p>在客户现场切入具体业务（如核心银行数据迁移、SAP 运维、财务或 HR 改造）时，严禁盲目承诺“一步到位实现 100% 全自动无人化”：</p>
+<ol>
+<li>对号入座“五级自主演进模型”：按照 Dharma Atluri 提出的演进路径——从 L1 人工辅助（AI Assists） → L2 嵌入工作流（Embedded in Workflows） → L3 委派特定任务（Delegate Specific Activities，人处理异常） → L4 多智能体跨步协同（Multi-agent Coordination） → L5 自主运营与按异常管理（Autonomous Operations / Manage-by-exception），根据客户每个具体流程的数据就绪度与风险承受力分级推进。</li>
+<li>用“调优输入（Working on the inputs）”取代“人工逐行改错”：借鉴 Javier Olaizola 分享的印度大型银行数据现代化迁移案例（将原本需要 300 人干 12~15 个月的数千个数据处理作业迁移，用极小规模团队在 9 个月内拿下）——当智能体第一轮转换遗留代码的准确率只有 70% 时，千万不要派一堆程序员去手动修改那 30% 的报错代码，而是让 FDU 专家研究错误模式、修改喂给系统的指令与上下文（Context），重跑验证使其准确率跃升至 85%、90% 以上，再将这套跑通的方法批量复制到成百上千个同类作业中。</li>
+<li>坚持“双价值流（Two Value Streams）”交付：每次项目结束，不仅要向客户交付第一价值流（跑通的系统、自动化的流程、合同约定的业务指标），还必须交付第二价值流（沉淀下来的企业专属上下文资产包、证明 AI 有效的自动化测试套件、智能体配置文件与演进方法论），通过类似 IBM Enterprise Advantage 的服务转化为客户内部可持续自主演进的 AI 平台。</li>
+</ol>
+<h3 id="07-china-16">第五步：构建“行业灯塔联盟”分摊验证成本，并借高人效杠杆下沉中端市场（Midmarket）</h3>
+<p>针对国内强监管行业（如电力能源、金融、央国企）“不敢第一个吃螃蟹、单家企业试错成本高”的痛点，以及传统大厂“做不起中小型客户定制项目”的局限，FDU 提供了两把商业裂变利器：</p>
+<ul>
+<li>打法 A：发起“构建一次、共同验证、多次部署（Build Once, Validate Together, Deploy Many）”的行业灯塔委员会。参考 IBM 在 2026 年 9 月联合 Chesapeake Utilities 等北美六大公用事业巨头（覆盖美 18 个州逾 5,000 万居民）成立的 IBM AI Lighthouse Council（AI 灯塔委员会）。围绕行业共性底座（如 SAP S/4HANA），通过 24 周联合构建周期、三阶段方法论（共同定义 Co-Define、共同构建 Co-Build、共同验证 Co-Validate）和三道正式反馈关口，集中打造客户运营（账单异常、催收优化）、财务供应链（自主应计、跨源对账）和现场资产管理（变压器管理、智能电表分析）等生产级智能体。每家成员企业只需派出一名高管发起人和业务专家参与设计验证，就能分摊高昂的合规验证成本，直接获得适配自身环境的智能体部署、参考架构和每一次调用均可追溯至具体业务价值的商业论证模板。</li>
+<li>打法 B：利用“技术套利（Technology Arbitrage）”击败低价外包，并下沉开拓中型企业市场（Midmarket）。Mohamad Ali 透露了一个极具震撼力的实战案例：在近期欧洲一家制药企业的竞标中，素来以“高端高价”著称的 IBM 咨询正面迎战多家主打低成本离岸外包（Low-cost offshore providers）的竞争对手；结果凭借“人类+数字员工”的 FDU 组合，IBM 竟然成为了全场报价最低的供应商（Low-cost provider），同时保持了最高质量。更重要的是，过去大型咨询公司和头部软件厂因为需要派驻庞大团队，根本服务不起中型企业（Midmarket）；如今只需 3~6 人的小型 FDU 就能极速交付，让头部技术团队得以大举切入广阔的腰部与中型企业市场。</li>
+</ul>
+<h2 id="07-china-7-4">7.4 角色对号入座：给国内甲方 CIO、乙方服务商与一线工程师的行动清单</h2>
+<p>为了让你能将本文的方法论立即转化为明日的行动，我们针对国内生态中的三类核心角色，整理了这份《FDU 时代生存与跃迁清单》：</p>
+<div><section class="record"><p class="record-kind">核心角色</p><h3>甲方企业 CEO / CIO / 数字化负责人</h3><dl><dt>立即停止做的事（Stop Doing）</dt><dd>1. 停止立项脱离核心业务流、无 ROI 闭环的孤立聊天机器人试点<br/>2. 停止单纯按“派驻人头数/工时”评估和采购外部技术服务<br/>3. 停止在未梳理混乱流程前盲目把 Agent 塞进旧系统“将低效自动化”</dd><dt>立即开始做的事（Start Doing）</dt><dd>1. 用“自主运营六问”体检自身系统（Clean Core、数据、流程、治理、组织、价值度量）<br/>2. 要求服务商采用 FDU 模式，实行固定总价或按业务结果/资产复用混合签约<br/>3. 要求每次项目必须留下“业务成果 + 可复用上下文与测试资产包”双价值流</dd><dt>核心衡量指标（New Metrics）</dt><dd>• 投资回报率（AI 红利是否真正进入 P&amp;L 损益表）<br/>• 首次价值实现时间（Time to first value）<br/>• 端到端周期压缩率与运营成本降幅（如 50%~60% 成本削减）</dd></dl></section><section class="record"><p class="record-kind">核心角色</p><h3>乙方咨询机构 / ToB 软件与 IT 服务商</h3><dl><dt>立即停止做的事（Stop Doing）</dt><dd>1. 停止靠堆砌初级程序员打“离岸/驻场人海消耗战（Labor Arbitrage）”<br/>2. 停止只给员工买 AI 账号却不建设统一工程平台与护栏底座<br/>3. 停止用“工时利用率（Utilization）”惩罚那些用 AI 大幅缩短工期的优秀团队</dd><dt>立即开始做的事（Start Doing）</dt><dd>1. 立即启动 Client Zero 内部改造，把行业经验封装为生产级数字员工与资产包（Packs）<br/>2. 组建包含成果负责人、领域专家、FDA、FDE 的 3~8 人常设 Pod<br/>3. 建立技能中央托管机制保护 IP，并用高人效优势下沉收割中型客户市场</dd><dt>核心衡量指标（New Metrics）</dt><dd>• 团队利润率与交付毛利（Delivery Margin）<br/>• 沉淀至中央库的可复用 IP 与资产包数量<br/>• 由智能体自动化完成的工作占比（% of work automated by agents）</dd></dl></section><section class="record"><p class="record-kind">核心角色</p><h3>一线架构师 / 研发工程师（FDE 候选人）</h3><dl><dt>立即停止做的事（Stop Doing）</dt><dd>1. 停止把精力消耗在手写样板代码、手动维护测试用例与反复开会对齐模糊需求上<br/>2. 停止当智能体报错时用人工去逐行硬改生成结果<br/>3. 停止守着单一技术栈拒绝理解行业业务流程</dd><dt>立即开始做的事（Start Doing）</dt><dd>1. 转向规范驱动开发（RAD），精通编写机器可读的 spec.md 与企业上下文工程<br/>2. 掌握多智能体编排、提示词工程与“通过调优输入来批量修正智能体输出”的能力<br/>3. 向“判断力层（Judgment Layer）”跃迁，磨练架构把控、安全合规审查与业务转化能力</dd><dt>核心衡量指标（New Metrics）</dt><dd>• 部署前置时间（Lead time to deploy）与部署频率<br/>• 逃逸缺陷率（Escaped defects）与安全合规审计得分<br/>• 单人撬动数字员工集群的吞吐量乘数（如 6 人撬动 30 人产出）</dd></dl></section></div>
+<nav class="chapter-nav" aria-label="章节翻页"><a href="06-cases.html">上一章：第六章：FDU 能解决什么问题？——全球标杆实战案例与“零号客户”的 ROI 铁证</a><a href="08-next-frontier.html">下一章：第八章：终章——当容量瓶颈被 FDU 攻克，AI 交付的下一个主战场在哪里？</a></nav><!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span>主题基于 <a href="https://github.com/haidang1810/md2html">md2html</a></span>
+        <span>从 FDE 到 FDU · 2026 年 10 月整理版</span>
+      </footer>
+    </main>
+  </div>
+
+  
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function applyThemeIcon() {
+      const use = document.getElementById("theme-icon-use");
+      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
+    }
+    (function restoreTheme() {
+      let saved; try { saved = localStorage.getItem(STORAGE_KEY); } catch {}
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+
+    function toggleTheme() {
+      const next = currentTheme() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem(STORAGE_KEY, next); } catch {}
+      applyThemeIcon();
+
+    }
+
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length && !document.querySelector("#toc-nav a")) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "章节链接");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "复制代码");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      applyThemeIcon();
+      injectAnchors();
+      injectCopyButtons();
+
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+</body>
+</html>
