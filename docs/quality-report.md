@@ -1,6 +1,6 @@
 # 交付检查记录
 
-检查日期：2026-10-14。本记录对应本地交付版本，未创建或推送远程仓库。
+检查日期：2026-10-14。本记录对应已发布版本；源码仓库与课程网站于同日公开发布。
 
 ## 交付物
 
@@ -46,4 +46,12 @@
 - Diagram Design 已更新到提交 `11b08eade8049c441ed3df1895e3b527c26c0fbe`。
 - Claude 风格 md2html 模板固定于提交 `82fa59cd673d985781ebb81814252c7b25d129cb`，保留上游 MIT 许可证。
 - 模板来源、适配项、字体来源与许可证见 `source/upstream-versions.json`。
-- 构建命令与文件位置见根目录 `README.md`；仅本地生成，尚未公开发布。
+- 构建、检查和发布命令见根目录 `README.md`。
+
+## 公开发布核验
+
+- 仓库：https://github.com/threerocks/fdu-handbook ，公开可访问，默认分支 `main`。
+- 课程：https://threerocks.github.io/fdu-handbook/ ，由 GitHub Pages 托管，HTTPS 已启用。
+- 发布分支：`gh-pages`；GitHub Pages 构建状态为 `built`。
+- 回读全部 37 个公开页面、图像、字体和下载资源，HTTP 均为 200。
+- 线上 HTML 与 PDF 的 SHA-256 均与本地已检查文件一致。
